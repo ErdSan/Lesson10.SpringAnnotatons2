@@ -1,26 +1,33 @@
 package ru.erdyneev.springcourse;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
+
+import java.util.Random;
 
 @Component
 public class MusicPlayer {
-    private Music music1;
-    private Music music2;
+    private ClassicalMusic classicalMusic;
+    private RockMusic rockMusic;
+
     @Autowired
-    public MusicPlayer(@Qualifier("rockMusic") Music music1, @Qualifier("classicalMusic") Music music2) {
-        this.music1 = music1;
-        this.music2 = music2;
+    public MusicPlayer(ClassicalMusic classicalMusic, RockMusic rockMusic) {
+        this.classicalMusic = classicalMusic;
+        this.rockMusic = rockMusic;
     }
 
     public void playMusic(Genre genre) {
-        int rand = (int) (Math.random() * 3);
-        if (genre.equals(Genre.ROCK)) {
-                System.out.println(music2.getSong().get(rand));
-        }
-        if (genre.equals(Genre.CLASSICAL)) {
-                System.out.println(music1.getSong().get(rand));
+        Random random = new Random();
+
+        // случайное целое число между 0 и 2
+        int randomNumber = random.nextInt(3);
+
+        if (genre == Genre.CLASSICAL) {
+            // случайная классическая песня
+            System.out.println(classicalMusic.getSong().get(randomNumber));
+        } else {
+            // случайная рок песня
+            System.out.println(rockMusic.getSong().get(randomNumber));
         }
     }
 }
